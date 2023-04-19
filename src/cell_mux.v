@@ -6,7 +6,7 @@ module cell_mux (
     output [7:0] out
 );
 
-wire [370:0] cc_out_notouch_;
+wire [426:0] cc_out_notouch_;
 
 combined_cells cc_inst (
     .in(in),
