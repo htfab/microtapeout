@@ -20,9 +20,9 @@ cell_mux cm_inst (
 
 always @(posedge clk) begin
     if (page_mode) begin
-        mc_page <= switches;
+        cm_page <= switches;
     end else begin
-        mc_in <= switches;
+        cm_in <= switches;
     end
 end
 
