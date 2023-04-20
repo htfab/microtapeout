@@ -10,8 +10,7 @@ ifneq ($(GATES),yes)
 
 # this is the only part you should need to modify:
 VERILOG_SOURCES += $(PWD)/tb.v $(PWD)/microtapeout.v $(PWD)/cell_mux.v $(PWD)/combined_cells.v
-VERILOG_SOURCES += $(PDK_ROOT)/sky130A/libs.ref/sky130_fd_sc_hd/verilog/sky130_fd_sc_hd.v
-COMPILE_ARGS    += -DGL_TEST
+VERILOG_SOURCES += $(PWD)/sky130_primitives.v $(PWD)/sky130_fd_sc_hd.v
 
 else
 

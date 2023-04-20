@@ -9,7 +9,7 @@ project:
     - microtapeout.v
     - cell_mux.v
     - combined_cells.v
-    - sky130_stdcells.v
+    - sky130_fd_sc_hd_blackbox.v
   top_module:  "htfab_microtapeout"      # put the name of your top module here, make it unique by prepending your github username
 
 # Keep a track of the submission yaml
