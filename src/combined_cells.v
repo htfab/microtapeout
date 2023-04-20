@@ -11,7 +11,6 @@ sky130_fd_sc_hd__conb_1 conb_1_inst(.HI(out_notouch_[0]), .LO(out_notouch_[1]));
 
 // buffers & inverters
 ///////////////////////
-wire inv_notouch_[1:0];
 sky130_fd_sc_hd__buf_1 buf_1_inst(.A(in[0]), .X(out_notouch_[2]));
 sky130_fd_sc_hd__buf_2 buf_2_inst(.A(in[0]), .X(out_notouch_[3]));
 sky130_fd_sc_hd__buf_4 buf_4_inst(.A(in[0]), .X(out_notouch_[4]));
@@ -26,8 +25,8 @@ sky130_fd_sc_hd__inv_2 inv_2_inst(.A(in[0]), .Y(out_notouch_[12]));
 sky130_fd_sc_hd__inv_4 inv_4_inst(.A(in[0]), .Y(out_notouch_[13]));
 sky130_fd_sc_hd__inv_6 inv_6_inst(.A(in[0]), .Y(out_notouch_[14]));
 sky130_fd_sc_hd__inv_8 inv_8_inst(.A(in[0]), .Y(out_notouch_[15]));
-sky130_fd_sc_hd__inv_12 inv_12_inst(.A(in[0]), .Y(inv_notouch_[0])); assign out_notouch_[16] = inv_notouch_[0];
-sky130_fd_sc_hd__inv_16 inv_16_inst(.A(in[0]), .Y(inv_notouch_[1])); assign out_notouch_[17] = inv_notouch_[1];
+sky130_fd_sc_hd__inv_12 inv_12_inst(.A(in[0]), .Y(out_notouch_[16]));
+sky130_fd_sc_hd__inv_16 inv_16_inst(.A(in[0]), .Y(out_notouch_[17]));
 sky130_fd_sc_hd__bufinv_8 bufinv_8_inst(.A(in[0]), .Y(out_notouch_[18]));
 sky130_fd_sc_hd__bufinv_16 bufinv_16_inst(.A(in[0]), .Y(out_notouch_[19]));
 
@@ -382,20 +381,20 @@ sky130_fd_sc_hd__sedfxbp_2 sedfxbp_2_inst(.CLK(in[0]), .D(in[1]), .DE(in[2]), .S
 // tri-state buffers
 /////////////////////
 wire [6:0] tri_notouch_;
-sky130_fd_sc_hd__ebufn_1 ebufn_1_inst(.A(in[1]), .TE_B(in[0]), .Z(tri_notouch_[0]));
-sky130_fd_sc_hd__ebufn_2 ebufn_2_inst(.A(in[1]), .TE_B(inv_notouch_[0]), .Z(tri_notouch_[0])); assign out_notouch_[378] = tri_notouch_[0];
-sky130_fd_sc_hd__ebufn_4 ebufn_4_inst(.A(in[1]), .TE_B(in[0]), .Z(tri_notouch_[1]));
-sky130_fd_sc_hd__ebufn_8 ebufn_8_inst(.A(in[1]), .TE_B(inv_notouch_[1]), .Z(tri_notouch_[1])); assign out_notouch_[379] = tri_notouch_[1];
-sky130_fd_sc_hd__einvn_0 einvn_0_inst(.A(in[1]), .TE_B(in[0]), .Z(tri_notouch_[2]));
-sky130_fd_sc_hd__einvp_1 einvp_1_dupl(.A(in[1]), .TE(in[0]), .Z(tri_notouch_[2])); assign out_notouch_[380] = tri_notouch_[2];
-sky130_fd_sc_hd__einvn_1 einvn_1_inst(.A(in[1]), .TE_B(in[0]), .Z(tri_notouch_[3]));
-sky130_fd_sc_hd__einvp_1 einvp_1_inst(.A(in[1]), .TE(in[0]), .Z(tri_notouch_[3])); assign out_notouch_[381] = tri_notouch_[3];
-sky130_fd_sc_hd__einvn_2 einvn_2_inst(.A(in[1]), .TE_B(in[0]), .Z(tri_notouch_[4]));
-sky130_fd_sc_hd__einvp_2 einvp_2_inst(.A(in[1]), .TE(in[0]), .Z(tri_notouch_[4])); assign out_notouch_[382] = tri_notouch_[4];
-sky130_fd_sc_hd__einvn_4 einvn_4_inst(.A(in[1]), .TE_B(in[0]), .Z(tri_notouch_[5]));
-sky130_fd_sc_hd__einvp_4 einvp_4_inst(.A(in[1]), .TE(in[0]), .Z(tri_notouch_[5])); assign out_notouch_[383] = tri_notouch_[5];
-sky130_fd_sc_hd__einvn_8 einvn_8_inst(.A(in[1]), .TE_B(in[0]), .Z(tri_notouch_[6]));
-sky130_fd_sc_hd__einvp_8 einvp_8_inst(.A(in[1]), .TE(in[0]), .Z(tri_notouch_[6])); assign out_notouch_[384] = tri_notouch_[6];
+sky130_fd_sc_hd__ebufn_1 ebufn_1_inst(.A(in[1]), .TE_B(~in[2]), .Z(tri_notouch_[0]));
+sky130_fd_sc_hd__ebufn_2 ebufn_2_inst(.A(in[0]), .TE_B(in[2]), .Z(tri_notouch_[0])); assign out_notouch_[378] = tri_notouch_[0];
+sky130_fd_sc_hd__ebufn_4 ebufn_4_inst(.A(in[1]), .TE_B(~in[2]), .Z(tri_notouch_[1]));
+sky130_fd_sc_hd__ebufn_8 ebufn_8_inst(.A(in[0]), .TE_B(in[2]), .Z(tri_notouch_[1])); assign out_notouch_[379] = tri_notouch_[1];
+sky130_fd_sc_hd__einvp_1 einvp_1_dupl(.A(in[1]), .TE(in[2]), .Z(tri_notouch_[2]));
+sky130_fd_sc_hd__einvn_0 einvn_0_inst(.A(in[0]), .TE_B(in[2]), .Z(tri_notouch_[2])); assign out_notouch_[380] = tri_notouch_[2];
+sky130_fd_sc_hd__einvp_1 einvp_1_inst(.A(in[1]), .TE(in[2]), .Z(tri_notouch_[3]));
+sky130_fd_sc_hd__einvn_1 einvn_1_inst(.A(in[0]), .TE_B(in[2]), .Z(tri_notouch_[3])); assign out_notouch_[381] = tri_notouch_[3];
+sky130_fd_sc_hd__einvp_2 einvp_2_inst(.A(in[1]), .TE(in[2]), .Z(tri_notouch_[4]));
+sky130_fd_sc_hd__einvn_2 einvn_2_inst(.A(in[0]), .TE_B(in[2]), .Z(tri_notouch_[4])); assign out_notouch_[382] = tri_notouch_[4];
+sky130_fd_sc_hd__einvp_4 einvp_4_inst(.A(in[1]), .TE(in[2]), .Z(tri_notouch_[5]));
+sky130_fd_sc_hd__einvn_4 einvn_4_inst(.A(in[0]), .TE_B(in[2]), .Z(tri_notouch_[5])); assign out_notouch_[383] = tri_notouch_[5];
+sky130_fd_sc_hd__einvp_8 einvp_8_inst(.A(in[1]), .TE(in[2]), .Z(tri_notouch_[6]));
+sky130_fd_sc_hd__einvn_8 einvn_8_inst(.A(in[0]), .TE_B(in[2]), .Z(tri_notouch_[6])); assign out_notouch_[384] = tri_notouch_[6];
 
 // delay buffers
 /////////////////
