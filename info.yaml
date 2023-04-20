@@ -23,7 +23,7 @@ documentation:
   author:       "htfab"
   title:        "MicroTapeout"
   language:     "Verilog"
-  description:  "420 single-cell 'projects' with a mux to select between them. Sounds familiar from somewhere."
+  description:  "427 single-cell 'projects' with a mux to select between them. Sounds familiar from somewhere."
 
 # Longer description of how the project works. You can use standard markdown format.
   how_it_works: |
