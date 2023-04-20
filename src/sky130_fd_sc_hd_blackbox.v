@@ -393,20 +393,20 @@
 (* blackbox *) module sky130_fd_sc_hd__or4bb_4(input A, B, C_N, D_N, output X); endmodule
 (* blackbox *) module sky130_fd_sc_hd__probe_p_8(input A, output X); endmodule
 (* blackbox *) module sky130_fd_sc_hd__probec_p_8(input A, output X); endmodule
-(* blackbox *) module sky130_fd_sc_hd__sdfbbn_1(input CLK_N, D, RESET_B, SCD, SCE, SET_B, output Q, Q_N); endmodule
-(* blackbox *) module sky130_fd_sc_hd__sdfbbn_2(input CLK_N, D, RESET_B, SCD, SCE, SET_B, output Q, Q_N); endmodule
-(* blackbox *) module sky130_fd_sc_hd__sdfbbp_1(input CLK, D, RESET_B, SCD, SCE, SET_B, output Q, Q_N); endmodule
+(* blackbox *) module sky130_fd_sc_hd__sdfbbn_1(input CLK_N, D, RESET_B, SET_B, SCD, SCE, output Q, Q_N); endmodule
+(* blackbox *) module sky130_fd_sc_hd__sdfbbn_2(input CLK_N, D, RESET_B, SET_B, SCD, SCE, output Q, Q_N); endmodule
+(* blackbox *) module sky130_fd_sc_hd__sdfbbp_1(input CLK, D, RESET_B, SET_B, SCD, SCE, output Q, Q_N); endmodule
 (* blackbox *) module sky130_fd_sc_hd__sdfrbp_1(input CLK, D, RESET_B, SCD, SCE, output Q, Q_N); endmodule
 (* blackbox *) module sky130_fd_sc_hd__sdfrbp_2(input CLK, D, RESET_B, SCD, SCE, output Q, Q_N); endmodule
 (* blackbox *) module sky130_fd_sc_hd__sdfrtn_1(input CLK_N, D, RESET_B, SCD, SCE, output Q); endmodule
 (* blackbox *) module sky130_fd_sc_hd__sdfrtp_1(input CLK, D, RESET_B, SCD, SCE, output Q); endmodule
 (* blackbox *) module sky130_fd_sc_hd__sdfrtp_2(input CLK, D, RESET_B, SCD, SCE, output Q); endmodule
 (* blackbox *) module sky130_fd_sc_hd__sdfrtp_4(input CLK, D, RESET_B, SCD, SCE, output Q); endmodule
-(* blackbox *) module sky130_fd_sc_hd__sdfsbp_1(input CLK, D, SCD, SCE, SET_B, output Q, Q_N); endmodule
-(* blackbox *) module sky130_fd_sc_hd__sdfsbp_2(input CLK, D, SCD, SCE, SET_B, output Q, Q_N); endmodule
-(* blackbox *) module sky130_fd_sc_hd__sdfstp_1(input CLK, D, SCD, SCE, SET_B, output Q); endmodule
-(* blackbox *) module sky130_fd_sc_hd__sdfstp_2(input CLK, D, SCD, SCE, SET_B, output Q); endmodule
-(* blackbox *) module sky130_fd_sc_hd__sdfstp_4(input CLK, D, SCD, SCE, SET_B, output Q); endmodule
+(* blackbox *) module sky130_fd_sc_hd__sdfsbp_1(input CLK, D, SET_B, SCD, SCE, output Q, Q_N); endmodule
+(* blackbox *) module sky130_fd_sc_hd__sdfsbp_2(input CLK, D, SET_B, SCD, SCE, output Q, Q_N); endmodule
+(* blackbox *) module sky130_fd_sc_hd__sdfstp_1(input CLK, D, SET_B, SCD, SCE, output Q); endmodule
+(* blackbox *) module sky130_fd_sc_hd__sdfstp_2(input CLK, D, SET_B, SCD, SCE, output Q); endmodule
+(* blackbox *) module sky130_fd_sc_hd__sdfstp_4(input CLK, D, SET_B, SCD, SCE, output Q); endmodule
 (* blackbox *) module sky130_fd_sc_hd__sdfxbp_1(input CLK, D, SCD, SCE, output Q, Q_N); endmodule
 (* blackbox *) module sky130_fd_sc_hd__sdfxbp_2(input CLK, D, SCD, SCE, output Q, Q_N); endmodule
 (* blackbox *) module sky130_fd_sc_hd__sdfxtp_1(input CLK, D, SCD, SCE, output Q); endmodule
