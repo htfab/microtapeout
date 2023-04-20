@@ -483,5 +483,5 @@ async def test_microtapeout(dut):
             cell = cell_mapping[cell]
         io_pairs, sequential = pin_tests[cell]
         lenient = sequential and not gatelevel
-        await check_cell_pin(dut, i, io_pairs, gatelevel)
+        await check_cell_pin(dut, i, io_pairs, lenient)
 
