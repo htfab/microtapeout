@@ -5,7 +5,7 @@ import random
 import itertools
 import os
 
-async def check_cell_pin(dut, cell_pin, io_pairs):
+async def check_cell_pin(dut, cell_pin, io_pairs, lenient=False):
     dut.page_mode.value = 1
     dut.switches.value = cell_pin // 8
     await ClockCycles(dut.clk, 2)
@@ -16,8 +16,13 @@ async def check_cell_pin(dut, cell_pin, io_pairs):
         r = dut.results.value[~cell_pin%8]
         istr = bin(i)[2:].rjust(6, '0')
         ostr = 'any' if o is None else str(o)
-        dut._log.info(f"cell_pin {cell_pin} input {istr} output {r} expected {ostr}")
-        assert o is None or r == o
+        info = f"cell_pin {cell_pin} input {istr} output {r} expected {ostr}"
+        if lenient and r == 'x' and o is not None:
+            # workaround for incorrect rtl simulation of short-circuits involving x'es
+            dut._log.info(info + " (ignored for sequential logic in rtl mode)")
+        else:
+            dut._log.info(info)
+            assert o is None or r == o
 
 def auto_iter(in_iter):
     try:
@@ -49,7 +54,7 @@ def comb(func, repeat=None, seed=None):
         inp_bin = sum(j << i for i, j in enumerate(inputs))
         out = func(*inputs) & 1
         tests.append((inp_bin, out))
-    return randomize_unused_pins(num_inputs, tests, repeat, seed)
+    return randomize_unused_pins(num_inputs, tests, repeat, seed), False
 
 def latch(invert_output, invert_data, has_reset, repeat=None, seed=None):
     if has_reset:
@@ -65,7 +70,7 @@ def latch(invert_output, invert_data, has_reset, repeat=None, seed=None):
         if invert_output:
             o ^= 1
         tests.append((i, o))
-    return randomize_unused_pins(num_inputs, tests, repeat, seed)
+    return randomize_unused_pins(num_inputs, tests, repeat, seed), True
 
 def clockgate(has_scanchain, repeat=None, seed=None):
     if has_scanchain:
@@ -75,7 +80,7 @@ def clockgate(has_scanchain, repeat=None, seed=None):
     else:
         num_inputs = 2
         tests = [(0b00, 0), (0b01, 0), (0b11, 0), (0b10, 0), (0b11, 1), (0b10, 0), (0b11, 1), (0b01, 1), (0b00, 0), (0b01, 0)]
-    return randomize_unused_pins(num_inputs, tests, repeat, seed)
+    return randomize_unused_pins(num_inputs, tests, repeat, seed), True
 
 def flop(invert_output, invert_clock, has_reset, has_set, has_loopback, has_scanchain, repeat=None, seed=None):
     num_inputs = 2
@@ -110,8 +115,7 @@ def flop(invert_output, invert_clock, has_reset, has_set, has_loopback, has_scan
         if invert_output and o is not None:
             o ^= 1
         tests.append((i, o))
-    return randomize_unused_pins(num_inputs, tests, repeat, seed)
-    return ()
+    return randomize_unused_pins(num_inputs, tests, repeat, seed), True
 
 @cocotb.test()
 async def test_microtapeout(dut):
@@ -121,14 +125,6 @@ async def test_microtapeout(dut):
 
     clock = Clock(dut.clk, 20, units='us')
     cocotb.start_soon(clock.start())
-
-    if not gatelevel:
-        # rtl simulation is incorrect for short-circuits involving x'es,
-        # so make sure every sequential cell is initialized
-        dut.page_mode.value = 0
-        for i in range(64):
-            dut.switches.value = i
-            await ClockCycles(dut.clk, 2)
 
     pin_mapping = expand_dict({
         (0,): 'conb.HI',
@@ -485,5 +481,7 @@ async def test_microtapeout(dut):
         cell = pin_mapping[i]
         if cell in cell_mapping:
             cell = cell_mapping[cell]
-        await check_cell_pin(dut, i, pin_tests[cell])
+        io_pairs, sequential = pin_tests[cell]
+        lenient = sequential and not gatelevel
+        await check_cell_pin(dut, i, io_pairs, gatelevel)
 
