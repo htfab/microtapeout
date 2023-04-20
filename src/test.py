@@ -17,7 +17,7 @@ async def check_cell_pin(dut, cell_pin, io_pairs, lenient=False):
         istr = bin(i)[2:].rjust(6, '0')
         ostr = 'any' if o is None else str(o)
         info = f"cell_pin {cell_pin} input {istr} output {r} expected {ostr}"
-        if lenient and r == 'x' and o is not None:
+        if lenient and r.binstr == 'x' and o is not None:
             # workaround for incorrect rtl simulation of short-circuits involving x'es
             dut._log.info(info + " (ignored for sequential logic in rtl mode)")
         else:
