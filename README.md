@@ -76,9 +76,9 @@ Mapping of outputs to pages (also available as a [text file](src/outputs.txt)):
 | 101111 | sedfxbp\_2.q      | sedfxbp\_2.n      | ebufn\_1/\_2      | ebufn\_4/\_8      | einvp\_1/n\_0     | einvp\_1/n\_1     | einvp\_2/n\_2     | einvp\_4/n\_4     |
 | 110000 | einvp\_8/n\_8     | dg~sd1\_1         | dg~4sd2\_1        | dg~4sd3\_1        | dm~6s2s\_1        | dm~6s4s\_1        | dm~6s6s\_1        | clkbuf\_1         |
 | 110001 | clkbuf\_2         | clkbuf\_4         | clkbuf\_8         | clkbuf\_16        | clkinv\_1         | clkinv\_2         | clkinv\_4         | clkinv\_8         |
-| 110010 | clkinv\_16        | clkinvlp\_2       | clkinvlp\_4       | cd~4s15\_1        | cd~4s15\_2        | cd~4s18\_1        | cd~4s18\_2        | cd~4s25\_1        |
-| 110011 | cd~4s25\_2        | cd~4s50\_1        | cd~4s50\_2        | dlclkp\_1         | dlclkp\_2         | dlclkp\_4         | sdlclkp\_1        | sdlclkp\_2        |
+| 110010 | clkinv\_16        | clkinvlp\_2       | clkinvlp\_4       | cdb~4s15\_1       | cdb~4s15\_2       | cdb~4s18\_1       | cdb~4s18\_2       | cdb~4s25\_1       |
+| 110011 | cdb~4s25\_2       | cdb~4s50\_1       | cdb~4s50\_2       | dlclkp\_1         | dlclkp\_2         | dlclkp\_4         | sdlclkp\_1        | sdlclkp\_2        |
 | 110100 | sdlclkp\_4        | lpfii~0p\_1       | lpfii~0n\_1       | lpfii~1p\_1       | lpfii~1n\_1       | lpfii~latch\_1    | lpfibs~\_1        | lpfibs~\_2        |
 | 110101 | lpfibs~\_4        | lpfibs~\_8        | lpfibs~\_16       |                   |                   |                   |                   |                   |
 
-where dg~ = dlygate, dm~ = dlymetal, cd~ = clkdlybuf, lpfii~ = lpflow\_inputiso, lpfibs~ = lpflow\_isobufsrc.
+where dg~ = dlygate, dm~ = dlymetal, cdb~ = clkdlybuf, lpfii~ = lpflow\_inputiso, lpfibs~ = lpflow\_isobufsrc.

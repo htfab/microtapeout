@@ -150,45 +150,50 @@ documentation:
       |        | 4-7 | dm~6s2s\_1        | dm~6s4s\_1        | dm~6s6s\_1        | clkbuf\_1         |
       | 110001 | 0-3 | clkbuf\_2         | clkbuf\_4         | clkbuf\_8         | clkbuf\_16        |
       |        | 4-7 | clkinv\_1         | clkinv\_2         | clkinv\_4         | clkinv\_8         |
-      | 110010 | 0-3 | clkinv\_16        | clkinvlp\_2       | clkinvlp\_4       | cd~4s15\_1        |
-      |        | 4-7 | cd~4s15\_2        | cd~4s18\_1        | cd~4s18\_2        | cd~4s25\_1        |
-      | 110011 | 0-3 | cd~4s25\_2        | cd~4s50\_1        | cd~4s50\_2        | dlclkp\_1         |
+      | 110010 | 0-3 | clkinv\_16        | clkinvlp\_2       | clkinvlp\_4       | cdb~4s15\_1       |
+      |        | 4-7 | cdb~4s15\_2       | cdb~4s18\_1       | cdb~4s18\_2       | cdb~4s25\_1       |
+      | 110011 | 0-3 | cbd~4s25\_2       | cdb~4s50\_1       | cdb~4s50\_2       | dlclkp\_1         |
       |        | 4-7 | dlclkp\_2         | dlclkp\_4         | sdlclkp\_1        | sdlclkp\_2        |
       | 110100 | 0-3 | sdlclkp\_4        | lpfii~0p\_1       | lpfii~0n\_1       | lpfii~1p\_1       |
       |        | 4-7 | lpfii~1n\_1       | lpfii~latch\_1    | lpfibs~\_1        | lpfibs~\_2        |
       | 110101 | 0-3 | lpfibs~\_4        | lpfibs~\_8        | lpfibs~\_16       |                   |
       
-      where dg~ = dlygate, dm~ = dlymetal, cd~ = clkdlybuf, lpfii~ = lpflow\_inputiso, lpfibs~ = lpflow\_isobufsrc.
+      where dg~ = dlygate, dm~ = dlymetal, cdb~ = clkdlybuf, lpfii~ = lpflow\_inputiso, lpfibs~ = lpflow\_isobufsrc.
 
 # Instructions on how someone could test your project, include things like what buttons do what and how to set the clock if needed
   how_to_test:  |
-      TODO
+      Set pin 1 high to switch to page mode. Find the standard cell you would like to test in the table above
+      and set pins 2-7 to the 6 bit binary page number indicated in the first column. If pin 0 is not connected
+      to the clock, manually toggle it low and then high to force a clock cycle.
+
+      Set pin 1 low to switch to input mode. Set pins 2 and up to the values that should be supplied
+      to the selected standard cell's input pins. Once again, you may need to manually trigger a clock cycle.
 
 # A description of what the inputs do
   inputs:               
-    - TODO
-    - TODO
-    - TODO
-    - TODO
-    - TODO
-    - TODO
-    - TODO
-    - TODO
+    - clock
+    - page mode
+    - input bit 0 / page bit 0
+    - input bit 1 / page bit 1
+    - input bit 2 / page bit 2
+    - input bit 3 / page bit 3
+    - input bit 4 / page bit 4
+    - input bit 5 / page bit 5
 # A description of what the outputs do
   outputs:
-    - TODO
-    - TODO
-    - TODO
-    - TODO
-    - TODO
-    - TODO
-    - TODO
-    - TODO
+    - output bit 8*page
+    - output bit 8*page+1
+    - output bit 8*page+2
+    - output bit 8*page+3
+    - output bit 8*page+4
+    - output bit 8*page+5
+    - output bit 8*page+6
+    - output bit 8*page+7
 
 # The following fields are optional
   tag:          "utility, experiment"      # comma separated list of tags: test encryption, experiment, clock, animation, utility, industrial, pwm, fpga, alu, microprocessor, risc, riscv, sensor, signal generator, fft, filter, music, bcd, sound, serial, timer, random number generator, calculator, decoder, counter, puzzle, multiplier, game, oscillator,
   external_hw:  ""      # Describe any external hardware needed
   discord:      "htamas#9754"      # Your discord handle, used for communication and automatically assigning tapeout role after a submission
   doc_link:     ""      # URL to longer form documentation, eg the README.md in your repository
-  clock_hz:     1000       # Clock frequency in Hz (if required)
+  clock_hz:     10000   # Clock frequency in Hz (if required)
   picture:      ""      # relative path to a picture in your repository
