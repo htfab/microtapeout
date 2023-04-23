@@ -1,6 +1,7 @@
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, Timer, ClockCycles
+from cocotb.handle import Force, Release
 import random
 import itertools
 import os
@@ -118,9 +119,8 @@ def flop(invert_output, invert_clock, has_reset, has_set, has_loopback, has_scan
     return randomize_unused_pins(num_inputs, tests, repeat, seed), True
 
 @cocotb.test()
-async def test_microtapeout(dut):
+async def test_cells(dut):
     dut._log.info("start")
-
     gatelevel = os.environ.get('GATES') == 'yes'
 
     clock = Clock(dut.clk, 20, units='us')
@@ -484,4 +484,101 @@ async def test_microtapeout(dut):
         io_pairs, sequential = pin_tests[cell]
         lenient = sequential and not gatelevel
         await check_cell_pin(dut, i, io_pairs, lenient)
+
+
+@cocotb.test()
+async def test_timer(dut):
+
+    dut._log.info("start")
+    gatelevel = os.environ.get('GATES') == 'yes'
+    if gatelevel:
+        dut._log.info("skipping test_timer in gatelevel mode")
+        return
+
+    dut.clk.value = 0
+    dut.page_mode.value = 1
+    dut.switches.value = 0b000000
+    await Timer(20, units='ns')
+
+    dut.clk.value = 1
+    await Timer(20, units='ns')
+
+    dut.clk.value = 0
+    dut.switches.value = 0b111010
+    await Timer(20, units='ns')
+
+    dut.clk.value = 1
+    await Timer(20, units='ns')
+
+    dut.clk.value = 0
+    dut.page_mode.value = 0
+    dut.switches.value = 0b000000
+    await Timer(20, units='ns')
+
+    dut.clk.value = 1
+    await Timer(20, units='ns')
+
+    dut.clk.value = 0
+    dut.switches.value = 0b000001
+    await Timer(20, units='ns')
+
+    dut.clk.value = 1
+    await Timer(20, units='ns')
+
+    dut.dut.ro_inst.counter.value = Force(0)
+    await Timer(20, units='ns')
+
+    dut.dut.ro_inst.counter.value = Release()
+    last_strobe = 0
+    strobe_changes = 0
+    for i in range(20):
+        await Timer(1, units='ns')
+        assert dut.results.value[0] == 0
+        assert dut.results.value[2:7].integer == 0
+        current_strobe = dut.results.value[1]
+        strobe_changes += abs(last_strobe - current_strobe)
+        last_strobe = current_strobe
+    assert strobe_changes <= 2
+
+    dut.clk.value = 0
+    dut.switches.value = 0b000000
+    for i in range(20):
+        await Timer(1, units='ns')
+        assert dut.results.value[0] == 1
+        assert 0 <= dut.results.value[2:7].integer <= 1
+        current_strobe = dut.results.value[1]
+        strobe_changes += abs(last_strobe - current_strobe)
+        last_strobe = current_strobe
+    assert strobe_changes <= 2
+
+    dut.clk.value = 1
+    for i in range(20):
+        await Timer(1, units='ns')
+        assert dut.results.value[0] == 1
+        assert 0 <= dut.results.value[2:7].integer <= 2
+        current_strobe = dut.results.value[1]
+        strobe_changes += abs(last_strobe - current_strobe)
+        last_strobe = current_strobe
+    assert strobe_changes <= 2
+
+    dut.clk.value = 0
+    for i in range(20):
+        await Timer(1, units='ns')
+        assert dut.results.value[0] == 0
+        assert 0 <= dut.results.value[2:7].integer <= 3
+        current_strobe = dut.results.value[1]
+        strobe_changes += abs(last_strobe - current_strobe)
+        last_strobe = current_strobe
+    assert strobe_changes <= 2
+
+    dut.clk.value = 1
+    for i in range(2000):
+        await Timer(1, units='ns')
+        assert dut.results.value[0] == 0
+        assert 0 <= (dut.results.value[2:7].integer - i + 3) % 64 <= 6
+        current_strobe = dut.results.value[1]
+        strobe_changes += abs(last_strobe - current_strobe)
+        last_strobe = current_strobe
+    print(strobe_changes)
+    assert 29 <= strobe_changes <= 33
 

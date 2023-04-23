@@ -9,8 +9,10 @@ TOPLEVEL_LANG ?= verilog
 ifneq ($(GATES),yes)
 
 # this is the only part you should need to modify:
-VERILOG_SOURCES += $(PWD)/tb.v $(PWD)/microtapeout.v $(PWD)/cell_mux.v $(PWD)/combined_cells.v
+VERILOG_SOURCES += $(PWD)/tb.v $(PWD)/microtapeout.v $(PWD)/cell_mux.v $(PWD)/combined_cells.v $(PWD)/ring_osc_timer.v
 VERILOG_SOURCES += $(PWD)/sky130_primitives.v $(PWD)/sky130_fd_sc_hd.v
+COMPILE_ARGS    += -DRTL_TEST
+COMPILE_ARGS    += -DSTROBE_BIT=6
 
 else
 

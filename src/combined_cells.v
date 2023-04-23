@@ -380,7 +380,7 @@ sky130_fd_sc_hd__sedfxbp_2 sedfxbp_2_inst(.CLK(in[0]), .D(in[1]), .DE(in[2]), .S
 
 // tri-state buffers
 /////////////////////
-wire [6:0] tri_notouch_;
+tri [6:0] tri_notouch_;
 sky130_fd_sc_hd__ebufn_1 ebufn_1_inst(.A(in[1]), .TE_B(~in[2]), .Z(tri_notouch_[0]));
 sky130_fd_sc_hd__ebufn_2 ebufn_2_inst(.A(in[0]), .TE_B(in[2]), .Z(tri_notouch_[0])); assign out_notouch_[378] = tri_notouch_[0];
 sky130_fd_sc_hd__ebufn_4 ebufn_4_inst(.A(in[1]), .TE_B(~in[2]), .Z(tri_notouch_[1]));
