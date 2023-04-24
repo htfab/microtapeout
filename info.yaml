@@ -22,7 +22,7 @@ yaml_version: 0.1
 # Here is a great example: https://github.com/davidsiaw/tt02-davidsiaw-stackcalc/blob/38c5647f83aad2aec675d566aa3d67b98f0aac81/info.yaml
 documentation: 
   author:       "htfab"
-  title:        "MicroTapeout"
+  title:        "MicroTapeout (of sky130 cells)"
   language:     "Verilog"
   description:  "395 standard cells with a mux to select between them"
 
@@ -36,6 +36,11 @@ documentation:
       This design contains a copy of most standard cells in the
       [sky130\_fd\_sc\_hd](https://antmicro-skywater-pdk-docs.readthedocs.io/en/test-submodules-in-rtd/contents/libraries/sky130_fd_sc_hd/README.html)
       library along with a multiplexing mechanism that allows exposing any of them to the input/output pins.
+
+      An MPW shuttle fabricates multiple designs on the same wafer. TinyTapeout merges several projects in a single
+      shuttle submission. MicroTapeout pushes the limit with each block containing just a single cell.
+      Apart from the geek factor the fabricated chip can be used by low-level digital design engineers to better
+      understand the behaviour of the individual standard cells and might even provide some timing insights.
 
       There are 437 standard cells in our library, of which 42 don't produce output or require special power handling.
       This leaves us with 395 cells. Each cell has up to 6 inputs and up to 2 outputs for a total of 427 outputs.
@@ -161,35 +166,59 @@ documentation:
       
       where dg~ = dlygate, dm~ = dlymetal, cdb~ = clkdlybuf, lpfii~ = lpflow\_inputiso, lpfibs~ = lpflow\_isobufsrc.
 
+      The design also contains an experimental timing circuit for measuring the switching times of the individual
+      standard cells using a ring oscillator. This is complicated by (1) a ring oscillator built from standard cells
+      being necessarily slower than the time to be measured, and (2) several buffering and multiplexing cells plus
+      wires also included in the measurement.
+
+      To offset (1), we can repeat a measurement several times and average them. Since the ring oscillator is not
+      synchronized to the rest of the chip, this should result in higher timing resolution. To combat (2), we can
+      compare the results to gate-level simulations and finetune the models until the results match up.
+
 # Instructions on how someone could test your project, include things like what buttons do what and how to set the clock if needed
   how_to_test:  |
       Set pin 1 high to switch to page mode. Find the standard cell you would like to test in the table above
       and set pins 2-7 to the 6 bit binary page number indicated in the first column. If pin 0 is not connected
       to the clock, manually toggle it low and then high to force a clock cycle.
-
       Set pin 1 low to switch to input mode. Set pins 2 and up to the values that should be supplied
       to the selected standard cell's input pins. Once again, you may need to manually trigger a clock cycle.
+      The result should appear on the output pin corresponding to the table column.
+
+      To use the experimental timing circuit, make sure pin 0 is in manual mode (not connected to a clock).
+      First set the page number the same way as above. While still in page mode, set pins 2-7 to the virtual
+      page number 111pqr where pqr is the cell index within the page. Trigger another clock cycle using pin 0.
+      Now set pin 1 low to switch to input mode. Set pins 2 and up to the _initial_ cell input values and
+      toggle pin 0 low and high again. Set pins 2 and up to the _modified_ cell input values and toggle
+      pin 0 low and high once more. This will latch the standard cell's previous output (i.e. the one for
+      the _initial_ input) and will connect the ring oscillator to a counter while the output is the same
+      as the latched value. The counter is connected to output pins 0-5. If the cell output for the
+      _initial_ and _modified_ inputs are different, this should settle to a value based on the cell
+      switching time. Otherwise it will keep running indefinitely. Pin 6 is connected to the same gated
+      clock as the counter but through a massive clock divider, resulting in visible blinking if the counter
+      is still running. The blinking speed can also be measured to calculate the frequency of the ring
+      oscillator (which depends on temperature, voltage and process parameters). Pin 7 shows the latched
+      cell output to help debugging.
 
 # A description of what the inputs do
   inputs:               
     - clock
     - page mode
-    - input bit 0 / page bit 0
-    - input bit 1 / page bit 1
-    - input bit 2 / page bit 2
-    - input bit 3 / page bit 3
-    - input bit 4 / page bit 4
-    - input bit 5 / page bit 5
+    - input bit 0 / page bit 0 / cell bit 0
+    - input bit 1 / page bit 1 / cell bit 1
+    - input bit 2 / page bit 2 / cell bit 2
+    - input bit 3 / page bit 3 / timing:1
+    - input bit 4 / page bit 4 / timing:1
+    - input bit 5 / page bit 5 / timing:1
 # A description of what the outputs do
   outputs:
-    - output bit 8*page
-    - output bit 8*page+1
-    - output bit 8*page+2
-    - output bit 8*page+3
-    - output bit 8*page+4
-    - output bit 8*page+5
-    - output bit 8*page+6
-    - output bit 8*page+7
+    - output bit 8*page / counter bit 0
+    - output bit 8*page+1 / counter bit 1
+    - output bit 8*page+2 / counter bit 2
+    - output bit 8*page+3 / counter bit 3
+    - output bit 8*page+4 / counter bit 4
+    - output bit 8*page+5 / counter bit 5
+    - output bit 8*page+6 / strobe
+    - output bit 8*page+7 / latched value
 
 # The following fields are optional
   tag:          "utility, experiment"      # comma separated list of tags: test encryption, experiment, clock, animation, utility, industrial, pwm, fpga, alu, microprocessor, risc, riscv, sensor, signal generator, fft, filter, music, bcd, sound, serial, timer, random number generator, calculator, decoder, counter, puzzle, multiplier, game, oscillator,
