@@ -226,4 +226,4 @@ documentation:
   discord:      "htamas#9754"      # Your discord handle, used for communication and automatically assigning tapeout role after a submission
   doc_link:     ""      # URL to longer form documentation, eg the README.md in your repository
   clock_hz:     10000   # Clock frequency in Hz (if required)
-  picture:      "pics/layout-small.jpg"      # relative path to a picture in your repository
+  picture:      "pics/layout-medium.jpg"      # relative path to a picture in your repository
