@@ -203,22 +203,22 @@ documentation:
   inputs:               
     - clock
     - page mode
-    - input bit 0 / page bit 0 / cell bit 0
-    - input bit 1 / page bit 1 / cell bit 1
-    - input bit 2 / page bit 2 / cell bit 2
-    - input bit 3 / page bit 3 / timing:1
-    - input bit 4 / page bit 4 / timing:1
-    - input bit 5 / page bit 5 / timing:1
+    - input[0] / page[0] / cell[0]
+    - input[1] / page[1] / cell[1]
+    - input[2] / page[2] / cell[2]
+    - input[3] / page[3] / 1 (timing)
+    - input[4] / page[4] / 1 (timing)
+    - input[5] / page[5] / 1 (timing)
 # A description of what the outputs do
   outputs:
-    - output bit 8*page / counter bit 0
-    - output bit 8*page+1 / counter bit 1
-    - output bit 8*page+2 / counter bit 2
-    - output bit 8*page+3 / counter bit 3
-    - output bit 8*page+4 / counter bit 4
-    - output bit 8*page+5 / counter bit 5
-    - output bit 8*page+6 / strobe
-    - output bit 8*page+7 / latched value
+    - output[8*page+0] / counter[0]
+    - output[8*page+1] / counter[1]
+    - output[8*page+2] / counter[2]
+    - output[8*page+3] / counter[3]
+    - output[8*page+4] / counter[4]
+    - output[8*page+5] / counter[5]
+    - output[8*page+6] / strobe
+    - output[8*page+7] / latched value
 
 # The following fields are optional
   tag:          "utility, experiment"      # comma separated list of tags: test encryption, experiment, clock, animation, utility, industrial, pwm, fpga, alu, microprocessor, risc, riscv, sensor, signal generator, fft, filter, music, bcd, sound, serial, timer, random number generator, calculator, decoder, counter, puzzle, multiplier, game, oscillator,
