@@ -22,6 +22,8 @@ This leaves us with 395 cells. Each cell has up to 6 inputs and up to 2 outputs 
 The same 6 inputs are fed into each cell in parallel while the 427 outputs are divided into 54 pages of 8 outputs each
 with a multiplexer deciding which page is mapped to the output pins.
 
+[![chip layout](pics/layout-small.jpg)](pics/layout-large.png)
+
 In order to drive the 6 cell inputs and the 6 bits of input to the mux from a total of 8 input pins we use some
 registered logic. Input pin 0 is a clock signal while input pin 1 selects _page mode_. On each rising clock edge
 we save input pins 2 to 7 into a page register if page mode is on and into an input register if page mode is off.
