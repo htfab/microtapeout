@@ -5,12 +5,14 @@
 SIM ?= icarus
 TOPLEVEL_LANG ?= verilog
 
+SRC = $(PWD)/../src
+
 # normal simulation
 ifneq ($(GATES),yes)
 
 # this is the only part you should need to modify:
-VERILOG_SOURCES += $(PWD)/tb.v $(PWD)/microtapeout.v $(PWD)/cell_mux.v $(PWD)/combined_cells.v $(PWD)/ring_osc_timer.v
-VERILOG_SOURCES += $(PWD)/sky130_primitives.v $(PWD)/sky130_fd_sc_hd.v
+VERILOG_SOURCES += $(PWD)/tb.v $(SRC)/microtapeout.v $(SRC)/cell_mux.v $(SRC)/combined_cells.v $(SRC)/ring_osc_timer.v
+VERILOG_SOURCES += $(SRC)/sky130_primitives.v $(SRC)/sky130_fd_sc_hd.v
 COMPILE_ARGS    += -DRTL_TEST
 COMPILE_ARGS    += -DSTROBE_BIT=6
 
